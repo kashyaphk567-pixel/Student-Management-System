@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ledger — Student Management System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark">§</span>
+      <span class="brand-name">Ledger</span>
+    </div>
+    <nav class="nav">
+      <button class="nav-item active" data-page="dashboard">
+        <span class="nav-num">01</span> Dashboard
+      </button>
+      <button class="nav-item" data-page="students">
+        <span class="nav-num">02</span> Students
+      </button>
+      <button class="nav-item" data-page="attendance">
+        <span class="nav-num">03</span> Attendance
+      </button>
+      <button class="nav-item" data-page="grades">
+        <span class="nav-num">04</span> Grades
+      </button>
+    </nav>
+    <div class="sidebar-foot">
+      <p>Records stored locally<br>in this browser.</p>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <section class="page active" id="page-dashboard">
+      <header class="page-head">
+        <div>
+          <p class="eyebrow">Overview</p>
+          <h1>Dashboard</h1>
+        </div>
+      </header>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <span class="stat-label">Enrolled</span>
+          <span class="stat-value" id="stat-total">0</span>
+          <span class="stat-sub">students on record</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Attendance</span>
+          <span class="stat-value" id="stat-attendance">—</span>
+          <span class="stat-sub">present today</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Average grade</span>
+          <span class="stat-value" id="stat-avg">—</span>
+          <span class="stat-sub">across all subjects</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Classes</span>
+          <span class="stat-value" id="stat-classes">0</span>
+          <span class="stat-sub">distinct sections</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Recently added</h2>
+        </div>
+        <table class="table" id="recent-table">
+          <thead>
+            <tr><th>Roll No.</th><th>Name</th><th>Class</th><th>Email</th></tr>
+          </thead>
+          <tbody id="recent-body"></tbody>
+        </table>
+        <p class="empty-note" id="dashboard-empty">No students yet — add your first record on the Students page.</p>
+      </div>
+    </section>
+
+    <!-- STUDENTS -->
+    <section class="page" id="page-students">
+      <header class="page-head">
+        <div>
+          <p class="eyebrow">Records</p>
+          <h1>Students</h1>
+        </div>
+        <button class="btn btn-primary" id="btn-add-student">+ Add student</button>
+        <button class="btn btn-ghost" id="btn-export-csv">Export CSV</button>
+      </header>
+
+      <div class="toolbar">
+        <input type="text" id="search-input" class="input" placeholder="Search by name or roll number…">
+        <select id="filter-class" class="input select">
+          <option value="">All classes</option>
+        </select>
+      </div>
+
+      <div class="panel">
+        <table class="table" id="students-table">
+          <thead>
+  <tr>
+    <th class="sortable" data-sort="roll">Roll No.</th>
+    <th class="sortable" data-sort="name">Name</th>
+    <th class="sortable" data-sort="class">Class</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th></th>
+  </tr>
+</thead>
+          </thead>
+          <tbody id="students-body"></tbody>
+        </table>
+        <p class="empty-note" id="students-empty">No students match. Try adding one or adjusting your search.</p>
+      </div>
+    </section>
+
+    <!-- ATTENDANCE -->
+    <section class="page" id="page-attendance">
+      <header class="page-head">
+        <div>
+          <p class="eyebrow">Daily record</p>
+          <h1>Attendance</h1>
+        </div>
+        <input type="date" id="attendance-date" class="input">
+      </header>
+
+      <div class="panel">
+        <table class="table" id="attendance-table">
+          <thead>
+            <tr><th>Roll No.</th><th>Name</th><th>Class</th><th>Status</th></tr>
+          </thead>
+          <tbody id="attendance-body"></tbody>
+        </table>
+        <p class="empty-note" id="attendance-empty">Add students first to take attendance.</p>
+      </div>
+    </section>
+
+    <!-- GRADES -->
+    <section class="page" id="page-grades">
+      <header class="page-head">
+        <div>
+          <p class="eyebrow">Performance</p>
+          <h1>Grades</h1>
+        </div>
+      </header>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Record a score</h2>
+        </div>
+        <form class="grade-form" id="grade-form">
+          <select id="grade-student" class="input select" required>
+            <option value="">Select student…</option>
+          </select>
+          <input type="text" id="grade-subject" class="input" placeholder="Subject (e.g. Data Structures)" required>
+          <input type="number" id="grade-score" class="input" placeholder="Score /100" min="0" max="100" required>
+          <button type="submit" class="btn btn-primary">Add score</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>All scores</h2>
+        </div>
+        <table class="table" id="grades-table">
+          <thead>
+            <tr><th>Roll No.</th><th>Name</th><th>Subject</th><th>Score</th><th>Grade</th><th></th></tr>
+          </thead>
+          <tbody id="grades-body"></tbody>
+        </table>
+        <p class="empty-note" id="grades-empty">No scores recorded yet.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ADD/EDIT STUDENT MODAL -->
+<div class="modal-overlay" id="student-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="modal-title">Add student</h2>
+      <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    </div>
+    <form id="student-form">
+      <input type="hidden" id="student-id">
+      <label class="field">
+        <span>Full name</span>
+        <input type="text" id="field-name" class="input" required>
+      </label>
+      <label class="field">
+        <span>Roll number</span>
+        <input type="text" id="field-roll" class="input" required>
+      </label>
+      <label class="field">
+        <span>Class / section</span>
+        <input type="text" id="field-class" class="input" placeholder="e.g. BSc CS — Year 2" required>
+      </label>
+      <label class="field">
+        <span>Email</span>
+        <input type="email" id="field-email" class="input">
+      </label>
+      <label class="field">
+        <span>Phone</span>
+        <input type="tel" id="field-phone" class="input">
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="modal-cancel">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save student</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
