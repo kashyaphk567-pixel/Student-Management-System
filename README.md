@@ -25,3 +25,11 @@ A simple, browser-based student management system built with plain HTML, CSS, an
 3. That's it — no build step, no server, no dependencies required
 
 ## Project Structure
+
+├── index.html # Page structure and layout
+├── styles.css # All styling (dark theme)
+└── app.js # Application logic (CRUD, storage, rendering)
+
+## Notes 
+
+This project is being built as a learning exercise in full-stack fundamentals, focused on core JavaScript concepts like DOM manipulation, event handling, and browser storage before moving on to frameworks and backend integration.
